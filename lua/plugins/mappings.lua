@@ -9,8 +9,19 @@ return {
           -- second key is the lefthand side of the map
           -- mappings seen under group name "Buffer"
           [","] = { ":", desc = "enter command mode" },
+          ["<Leader><Esc>"] = { "<C-\\><C-n>", desc = "Exit terminal mode" },
           ["<Leader>gi"] = { "<cmd>Neogit kind=split<cr>", desc = "Open Neogit" },
-          ["<Leader>bn"] = { "<cmd>tabnew<cr>", desc = "New tab" },
+          ["<leader>fp"] = { "<cmd>Telescope neovim-project discover<cr>", desc = "Open projects" },
+          ["<leader>fu"] =  { "<cmd>Telescope undo<cr>", desc = "Open undo history" },
+          ["<leader>cc"] = { "<cmd>Telescope neoclip a extra=star,plus,b<cr>", desc = "Open clip manager" },
+          ["<Tab>"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
+          ["<S-Tab>"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
+          ["<M-t>"] = { ":tabnew<CR>", desc = "Open new tab" },
+          ["<M-d>"] = { ":tabclose<CR>", desc = "Close current tab" },
+          ["<M-n>"] = { ":tabnext<CR>", desc = "Next tab" },
+          ["<M-p>"] = { ":tabnext<CR>", desc = "Previous tab" },
+          ["<M-z>"] = { ":NeoZoom<CR>", desc = "Zoom to split" },
+          ["<leader>cb"] = { ":Telescope keymaps<CR>", desc = "Search keybindings" },
           ["<Leader>bD"] = {
             function()
               require("astroui.status").heirline.buffer_picker(function(bufnr)
@@ -23,7 +34,7 @@ return {
           -- this is useful for naming menus
           ["<Leader>b"] = { desc = "Buffers" },
           -- quick save
-          -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
+          ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
         },
         t = {
           -- setting a mapping to false will disable it

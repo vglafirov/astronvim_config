@@ -48,6 +48,84 @@ return {
     },
     config = true,
   },
+  {
+    "nyngwang/NeoZoom.lua",
+    lazy = false,
+    config = function()
+      require("neo-zoom").setup {
+        popup = { enabled = true }, -- this is the default.
+        -- NOTE: Add popup-effect (replace the window on-zoom with a `[No Name]`).
+        -- EXPLAIN: This improves the performance, and you won't see two
+        --          identical buffers got updated at the same time.
+        -- popup = {
+        --   enabled = true,
+        --   exclude_filetypes = {},
+        --   exclude_buftypes = {},
+        -- },
+        exclude_buftypes = { "mason" },
+        -- exclude_filetypes = { 'lspinfo', 'mason', 'lazy', 'fzf', 'qf' },
+        winopts = {
+          offset = {
+            -- NOTE: omit `top`/`left` to center the floating window vertically/horizontally.
+            -- top = 0,
+            -- left = 0.17,
+            width = 500,
+            height = 1,
+          },
+          -- NOTE: check :help nvim_open_win() for possible border values.
+          border = "thicc", -- this is a preset, try it :)
+        },
+        presets = {
+          {
+            -- NOTE: regex pattern can be used here!
+            filetypes = { "dapui_.*", "dap-repl" },
+            winopts = {
+              offset = { top = 0.02, left = 0.26, width = 0.74, height = 0.25 },
+            },
+          },
+          {
+            filetypes = { "markdown" },
+            callbacks = {
+              function()
+                vim.wo.wrap = true
+              end,
+            },
+          },
+        },
+      }
+      vim.keymap.set("n", "<CR>", function()
+        vim.cmd "NeoZoomToggle"
+      end, { silent = true, nowait = true })
+    end,
+  },
+  {
+    "AckslD/nvim-neoclip.lua",
+    requires = {
+      { "nvim-telescope/telescope.nvim" },
+      { "ibhagwan/fzf-lua" },
+    },
+    config = function()
+      require("neoclip").setup()
+    end,
+  },
+  {
+    "christoomey/vim-tmux-navigator",
+    lazy = false,
+    cmd = {
+      "TmuxNavigateLeft",
+      "TmuxNavigateDown",
+      "TmuxNavigateUp",
+      "TmuxNavigateRight",
+      "TmuxNavigatePrevious",
+    },
+    keys = {
+      { "<m-h>", "<cmd> TmuxNavigateLeft<cr>" },
+      { "<m-j>", "<cmd> TmuxNavigateDown<cr>" },
+      { "<m-k>", "<cmd> TmuxNavigateUp<cr>" },
+      { "<m-l>", "<cmd> TmuxNavigateRight<cr>" },
+      { "<c-\\>", "<cmd> TmuxNavigatePrevious<cr>" },
+    },
+  },
   -- customize alpha options
   {
     "goolord/alpha-nvim",
