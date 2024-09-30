@@ -9,7 +9,6 @@ return {
           -- second key is the lefthand side of the map
           -- mappings seen under group name "Buffer"
           [","] = { ":", desc = "enter command mode" },
-          ["<Leader><Esc>"] = { "<C-\\><C-n>", desc = "Exit terminal mode" },
           ["<Leader>gi"] = { "<cmd>Neogit kind=split<cr>", desc = "Open Neogit" },
           ["<leader>fp"] = { "<cmd>Telescope neovim-project discover<cr>", desc = "Open projects" },
           ["<leader>fu"] =  { "<cmd>Telescope undo<cr>", desc = "Open undo history" },
@@ -37,6 +36,7 @@ return {
           ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
         },
         t = {
+          ["<Esc>"] = { "<C-\\><C-n>", desc = "Exit terminal mode" },
           -- setting a mapping to false will disable it
           -- ["<esc>"] = false,
         },
