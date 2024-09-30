@@ -1,5 +1,3 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- You can also add or configure plugins by creating files in this `plugins/` folder
 -- Here are some examples:
 
@@ -16,7 +14,40 @@ return {
   },
 
   -- == Examples of Overriding Plugins ==
-
+  --
+    {
+    "coffebar/neovim-project",
+    opts = {
+      projects = { -- define project roots
+        "~/workspace/*",
+        "~/workspace/gitlab/*",
+        "~/workspace/gitlab/dedicated/*",
+        "~/workspace/gitlab/k8s-workloads/*",
+        "~/.config/nvim/",
+      },
+    },
+    init = function()
+      -- enable saving the state of plugins in the session
+      vim.opt.sessionoptions:append "globals" -- save global variables that start with an uppercase letter and contain at least one lowercase letter.
+    end,
+    dependencies = {
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-telescope/telescope.nvim", tag = "0.1.4" },
+      { "Shatur/neovim-session-manager" },
+    },
+    lazy = false,
+    priority = 100,
+  },
+  {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- required
+      "nvim-telescope/telescope.nvim", -- optional
+      "sindrets/diffview.nvim", -- optional
+      "ibhagwan/fzf-lua", -- optional
+    },
+    config = true,
+  },
   -- customize alpha options
   {
     "goolord/alpha-nvim",
