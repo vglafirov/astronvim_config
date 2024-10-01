@@ -11,7 +11,7 @@ return {
           [","] = { ":", desc = "enter command mode" },
           ["<Leader>gi"] = { "<cmd>Neogit kind=split<cr>", desc = "Open Neogit" },
           ["<leader>fp"] = { "<cmd>Telescope neovim-project discover<cr>", desc = "Open projects" },
-          ["<leader>fu"] =  { "<cmd>Telescope undo<cr>", desc = "Open undo history" },
+          ["<leader>fu"] = { "<cmd>Telescope undo<cr>", desc = "Open undo history" },
           ["<leader>cc"] = { "<cmd>Telescope neoclip a extra=star,plus,b<cr>", desc = "Open clip manager" },
           ["<Tab>"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
           ["<S-Tab>"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
@@ -23,9 +23,9 @@ return {
           ["<leader>cb"] = { ":Telescope keymaps<CR>", desc = "Search keybindings" },
           ["<Leader>bD"] = {
             function()
-              require("astroui.status").heirline.buffer_picker(function(bufnr)
-                require("astrocore.buffer").close(bufnr)
-              end)
+              require("astroui.status").heirline.buffer_picker(
+                function(bufnr) require("astrocore.buffer").close(bufnr) end
+              )
             end,
             desc = "Pick to close",
           },
@@ -33,10 +33,10 @@ return {
           -- this is useful for naming menus
           ["<Leader>b"] = { desc = "Buffers" },
           -- quick save
-          ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
+          ["<C-s>"] = { ":w!<cr>", desc = "Save File" }, -- change description but the same command
         },
         t = {
-          ["<Esc>"] = { "<C-\\><C-n>", desc = "Exit terminal mode" },
+          ["<Leader><Esc>"] = { "<C-\\><C-n>", desc = "Exit terminal mode" },
           -- setting a mapping to false will disable it
           -- ["<esc>"] = false,
         },
@@ -51,16 +51,12 @@ return {
         n = {
           -- this mapping will only be set in buffers with an LSP attached
           K = {
-            function()
-              vim.lsp.buf.hover()
-            end,
+            function() vim.lsp.buf.hover() end,
             desc = "Hover symbol details",
           },
           -- condition for only server with declaration capabilities
           gD = {
-            function()
-              vim.lsp.buf.declaration()
-            end,
+            function() vim.lsp.buf.declaration() end,
             desc = "Declaration of current symbol",
             cond = "textDocument/declaration",
           },

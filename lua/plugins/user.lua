@@ -15,7 +15,7 @@ return {
 
   -- == Examples of Overriding Plugins ==
   --
-    {
+  {
     "coffebar/neovim-project",
     opts = {
       projects = { -- define project roots
@@ -86,16 +86,12 @@ return {
           {
             filetypes = { "markdown" },
             callbacks = {
-              function()
-                vim.wo.wrap = true
-              end,
+              function() vim.wo.wrap = true end,
             },
           },
         },
       }
-      vim.keymap.set("n", "<CR>", function()
-        vim.cmd "NeoZoomToggle"
-      end, { silent = true, nowait = true })
+      vim.keymap.set("n", "<CR>", function() vim.cmd "NeoZoomToggle" end, { silent = true, nowait = true })
     end,
   },
   {
@@ -104,9 +100,7 @@ return {
       { "nvim-telescope/telescope.nvim" },
       { "ibhagwan/fzf-lua" },
     },
-    config = function()
-      require("neoclip").setup()
-    end,
+    config = function() require("neoclip").setup() end,
   },
   {
     "christoomey/vim-tmux-navigator",
