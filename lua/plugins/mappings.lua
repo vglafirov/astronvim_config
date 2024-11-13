@@ -1,4 +1,5 @@
 return {
+  { "echasnovski/mini.icons", version = "*" },
   {
     "AstroNvim/astrocore",
     ---@type AstroCoreOpts
@@ -20,6 +21,7 @@ return {
           ["<M-n>"] = { ":tabnext<CR>", desc = "Next tab" },
           ["<M-p>"] = { ":tabnext<CR>", desc = "Previous tab" },
           ["<M-z>"] = { ":NeoZoom<CR>", desc = "Zoom to split" },
+          ["<Leader>lg"] = { "<Plug>(GitLabToggleCodeSuggestions)", desc = "Toggle GitLabToggleCodeSuggestions" },
           ["<leader>cb"] = { ":Telescope keymaps<CR>", desc = "Search keybindings" },
           ["<Leader>bD"] = {
             function()
