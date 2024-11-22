@@ -23,6 +23,7 @@ return {
           ["<M-z>"] = { ":NeoZoom<CR>", desc = "Zoom to split" },
           ["<Leader>lg"] = { "<Plug>(GitLabToggleCodeSuggestions)", desc = "Toggle GitLabToggleCodeSuggestions" },
           ["<leader>cb"] = { ":Telescope keymaps<CR>", desc = "Search keybindings" },
+          ["<leader>no"] = { function() require("notion").openMenu() end, desc = "Notion menu" },
           ["<Leader>bD"] = {
             function()
               require("astroui.status").heirline.buffer_picker(
