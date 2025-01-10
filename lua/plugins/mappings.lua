@@ -1,3 +1,33 @@
+local function open_terminal(direction)
+  if direction == "horizontal" then
+    vim.cmd "split" -- Open a horizontal split
+  elseif direction == "vertical" then
+    vim.cmd "vsplit" -- Open a vertical split
+  elseif direction == "full_screen" then
+    vim.cmd "enew | terminal" -- Open a new full-screen terminal
+    vim.cmd "resize | vertical resize" -- Maximize the terminal
+    return -- Exit as the terminal is already opened
+  else
+    print "Invalid direction! Use 'horizontal', 'vertical', or 'full_screen'."
+    return
+  end
+
+  -- Open the terminal in the created split
+  vim.cmd "terminal"
+end
+
+local function close_current_terminal()
+  local buf_id = vim.api.nvim_get_current_buf()
+  local buf_name = vim.api.nvim_buf_get_name(buf_id)
+
+  -- Check if the current buffer is a terminal
+  if buf_name:match "term://" then
+    vim.cmd "bdelete!" -- Force close the terminal buffer
+  else
+    print "Not a terminal buffer!"
+  end
+end
+
 return {
   { "echasnovski/mini.icons", version = "*" },
   {
@@ -19,12 +49,25 @@ return {
           ["<M-t>"] = { ":tabnew<CR>", desc = "Open new tab" },
           ["<M-d>"] = { ":tabclose<CR>", desc = "Close current tab" },
           ["<M-n>"] = { ":tabnext<CR>", desc = "Next tab" },
-          ["<M-p>"] = { ":tabnext<CR>", desc = "Previous tab" },
-          ["<M-z>"] = { ":NeoZoom<CR>", desc = "Zoom to split" },
-          ["<C-k>"] = { ":resize +1<CR>", desc = "Resize Up" },
-          ["<C-j>"] = { ":resize -1<CR>", desc = "Resize Down" },
-          ["<C-l>"] = { ":vertical resize -1<CR>", desc = "Resize Left" },
-          ["<C-h>"] = { ":vertical resize +1<CR>", desc = "Resize Right" },
+          ["<M-p>"] = { ":tabprevious<CR>", desc = "Previous tab" },
+          ["<M-z>"] = { ":NeoZoomToggle<CR>", desc = "Zoom to split" },
+          ["<M-K>"] = { ":resize +1<CR>", desc = "Resize Up" },
+          ["<M-J>"] = { ":resize -1<CR>", desc = "Resize Down" },
+          ["<M-L>"] = { ":vertical resize -1<CR>", desc = "Resize Left" },
+          ["<M-H>"] = { ":vertical resize +1<CR>", desc = "Resize Right" },
+          ["<Leader>tt"] = {
+            function() open_terminal "full_screen" end,
+            desc = "Open terminal in full screen",
+          },
+          ["<Leader>th"] = {
+            function() open_terminal "horizontal" end,
+            desc = "Open new horizontal terminal",
+          },
+          ["<Leader>tv"] = {
+            function() open_terminal "vertical" end,
+            desc = "Open new vertical terminal",
+          },
+
           ["<Leader>lg"] = { "<Plug>(GitLabToggleCodeSuggestions)", desc = "Toggle GitLabToggleCodeSuggestions" },
           ["<leader>cb"] = { ":Telescope keymaps<CR>", desc = "Search keybindings" },
           ["<leader>no"] = { function() require("notion").openMenu() end, desc = "Notion menu" },
@@ -43,7 +86,12 @@ return {
           ["<C-s>"] = { ":w!<cr>", desc = "Save File" }, -- change description but the same command
         },
         t = {
-          ["<Leader><Esc>"] = { "<C-\\><C-n>", desc = "Exit terminal mode" },
+          ["<Esc>"] = { "<C-\\><C-n>", desc = "Exit terminal mode" },
+          -- Toggle the current terminal using the custom function
+          ["<Esc><Esc>"] = {
+            function() close_current_terminal() end,
+            desc = "Toggle current terminal",
+          },
           -- setting a mapping to false will disable it
           -- ["<esc>"] = false,
         },

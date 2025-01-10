@@ -49,6 +49,7 @@ return {
   -- disable Gitlab LSP due to https://gitlab.com/gitlab-org/editor-extensions/gitlab.vim/-/issues/108
   {
     "git@gitlab.com:gitlab-org/editor-extensions/gitlab.vim.git",
+    commit = "cf304d18ba352e7bf914af978f4c1aab7ffb7e49",
     lazy = false,
     -- Activate when a file is created/opened
     event = { "BufReadPre", "BufNewFile" },

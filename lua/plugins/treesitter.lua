@@ -9,6 +9,11 @@ return {
     ensure_installed = {
       "lua",
       "vim",
+      "go",
+      "python",
+      "ruby",
+      "terraform",
+      "yaml",
       -- add more arguments for adding more treesitter parsers
     },
   },
