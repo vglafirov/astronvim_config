@@ -16,6 +16,28 @@ local function open_terminal(direction)
   vim.cmd "terminal"
 end
 
+local terminal_buffers = {} -- Store terminal buffers by buffer ID
+
+local function toggle_current_terminal()
+  local buf_id = vim.api.nvim_get_current_buf()
+  local buf_name = vim.api.nvim_buf_get_name(buf_id)
+
+  -- Check if the current buffer is a terminal
+  if buf_name:match "term://" then
+    -- If the buffer is already hidden, re-open it
+    if terminal_buffers[buf_id] then
+      vim.cmd("buffer " .. buf_id) -- Switch back to the terminal buffer
+      terminal_buffers[buf_id] = nil -- Remove from the hidden list
+    else
+      -- Hide the terminal buffer
+      vim.cmd "hide"
+      terminal_buffers[buf_id] = true -- Mark this buffer as hidden
+    end
+  else
+    print "Not a terminal buffer!"
+  end
+end
+
 local function close_current_terminal()
   local buf_id = vim.api.nvim_get_current_buf()
   local buf_name = vim.api.nvim_buf_get_name(buf_id)
@@ -51,6 +73,7 @@ return {
           ["<M-n>"] = { ":tabnext<CR>", desc = "Next tab" },
           ["<M-p>"] = { ":tabprevious<CR>", desc = "Previous tab" },
           ["<M-z>"] = { ":NeoZoomToggle<CR>", desc = "Zoom to split" },
+          ["<Leader>a"] = { ":AvanteToggle<CR>", desc = "AI tols" },
           ["<M-K>"] = { ":resize +1<CR>", desc = "Resize Up" },
           ["<M-J>"] = { ":resize -1<CR>", desc = "Resize Down" },
           ["<M-L>"] = { ":vertical resize -1<CR>", desc = "Resize Left" },
@@ -87,11 +110,17 @@ return {
         },
         t = {
           ["<Esc>"] = { "<C-\\><C-n>", desc = "Exit terminal mode" },
+          ["<C-l>"] = { "<C-\\><C-n>i<C-l>", desc = "Clean terminal window" },
           -- Toggle the current terminal using the custom function
           ["<Esc><Esc>"] = {
+            function() toggle_current_terminal() end,
+            desc = "Toggle current terminal",
+          },
+          ["<Esc>q"] = {
             function() close_current_terminal() end,
             desc = "Toggle current terminal",
           },
+
           -- setting a mapping to false will disable it
           -- ["<esc>"] = false,
         },

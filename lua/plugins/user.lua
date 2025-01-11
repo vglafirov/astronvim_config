@@ -46,28 +46,78 @@ return {
     lazy = false,
     priority = 100,
   },
-  -- disable Gitlab LSP due to https://gitlab.com/gitlab-org/editor-extensions/gitlab.vim/-/issues/108
+
   {
-    "git@gitlab.com:gitlab-org/editor-extensions/gitlab.vim.git",
-    commit = "cf304d18ba352e7bf914af978f4c1aab7ffb7e49",
+    "yetone/avante.nvim",
+    event = "VeryLazy",
     lazy = false,
-    -- Activate when a file is created/opened
-    event = { "BufReadPre", "BufNewFile" },
-    -- Activate when a supported filetype is open
-    ft = { "go", "javascript", "python", "ruby" },
-    cond = function()
-      -- Only activate if token is present in environment variable.
-      -- Remove this line to use the interactive workflow.
-      return vim.env.GITLAB_TOKEN ~= nil and vim.env.GITLAB_TOKEN ~= ""
-    end,
+    version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
     opts = {
-      statusline = {
-        -- Hook into the built-in statusline to indicate the status
-        -- of the GitLab Duo Code Suggestions integration
-        enabled = false,
+      provider = "openai",
+      auto_suggestions_provider = "openai",
+      -- add any opts here
+    },
+    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+    build = "make",
+    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+    dependencies = {
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      --- The below dependencies are optional,
+      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      "zbirenbaum/copilot.lua", -- for providers='copilot'
+      {
+        -- support for image pasting
+        "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
+        opts = {
+          -- recommended settings
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
+            },
+            -- required for Windows users
+            use_absolute_path = true,
+          },
+        },
+      },
+      {
+        -- Make sure to set this up properly if you have lazy=true
+        "MeanderingProgrammer/render-markdown.nvim",
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
       },
     },
   },
+
+  -- disable Gitlab LSP due to https://gitlab.com/gitlab-org/editor-extensions/gitlab.vim/-/issues/108
+  -- {
+  --   "git@gitlab.com:gitlab-org/editor-extensions/gitlab.vim.git",
+  --   commit = "cf304d18ba352e7bf914af978f4c1aab7ffb7e49",
+  --   lazy = false,
+  --   -- Activate when a file is created/opened
+  --   event = { "BufReadPre", "BufNewFile" },
+  --   -- Activate when a supported filetype is open
+  --   ft = { "go", "javascript", "python", "ruby" },
+  --   cond = function()
+  --     -- Only activate if token is present in environment variable.
+  --     -- Remove this line to use the interactive workflow.
+  --     return vim.env.GITLAB_TOKEN ~= nil and vim.env.GITLAB_TOKEN ~= ""
+  --   end,
+  --   opts = {
+  --     statusline = {
+  --       -- Hook into the built-in statusline to indicate the status
+  --       -- of the GitLab Duo Code Suggestions integration
+  --       enabled = false,
+  --     },
+  --   },
+  -- },
   {
     "rest-nvim/rest.nvim",
   },
