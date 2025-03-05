@@ -48,14 +48,44 @@ return {
   },
 
   {
+    "princejoogie/dir-telescope.nvim",
+    -- telescope.nvim is a required dependency
+    requires = { "nvim-telescope/telescope.nvim" },
+    config = function()
+      require("dir-telescope").setup {
+        -- these are the default options set
+        hidden = true,
+        no_ignore = false,
+        show_preview = true,
+        follow_symlinks = false,
+      }
+    end,
+  },
+
+  {
     "yetone/avante.nvim",
     event = "VeryLazy",
     lazy = false,
     version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
     opts = {
-      provider = "openai",
-      auto_suggestions_provider = "openai",
-      -- add any opts here
+      provider = "claude",
+      auto_suggestions_provider = "claude",
+      claude = {
+        endpoint = "https://api.anthropic.com",
+        model = "claude-3-7-sonnet-20250219",
+        temperature = 1,
+        max_tokens = 50000,
+      },
+      behaviour = {
+        auto_suggestions = false, -- Experimental stage
+        auto_set_highlight_group = true,
+        auto_set_keymaps = true,
+        auto_apply_diff_after_generation = false,
+        support_paste_from_clipboard = false,
+        minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
+        enable_token_counting = true, -- Whether to enable token counting. Default to true.
+        enable_cursor_planning_mode = false, -- Whether to enable Cursor Planning Mode. Default to false.
+      },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = "make",

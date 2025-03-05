@@ -65,6 +65,7 @@ return {
           ["<Leader>gi"] = { "<cmd>Neogit kind=split<cr>", desc = "Open Neogit" },
           ["<leader>fp"] = { "<cmd>Telescope neovim-project discover<cr>", desc = "Open projects" },
           ["<leader>fu"] = { "<cmd>Telescope undo<cr>", desc = "Open undo history" },
+          ["<leader>fd"] = { "<cmd>Telescope dir live_grep<cr>", desc = "Grep in current directory" },
           ["<leader>cc"] = { "<cmd>Telescope neoclip a extra=star,plus,b<cr>", desc = "Open clip manager" },
           ["<Tab>"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
           ["<S-Tab>"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
