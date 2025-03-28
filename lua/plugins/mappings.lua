@@ -52,6 +52,7 @@ end
 
 return {
   { "echasnovski/mini.icons", version = "*" },
+  { "echasnovski/mini.nvim", version = "*" },
   {
     "AstroNvim/astrocore",
     ---@type AstroCoreOpts
