@@ -20,6 +20,37 @@ return {
     init = function() vim.g.mkdp_filetypes = { "markdown" } end,
     ft = { "markdown" },
   },
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      lsp = {
+        -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+        },
+      },
+      -- you can enable a preset for easier configuration
+      presets = {
+        bottom_search = true, -- use a classic bottom cmdline for search
+        command_palette = true, -- position the cmdline and popupmenu together
+        long_message_to_split = true, -- long messages will be sent to a split
+        inc_rename = false, -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = false, -- add a border to hover docs and signature help
+      },
+      -- add any options here
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim",
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      "rcarriga/nvim-notify",
+    },
+  },
 
   -- == Examples of Overriding Plugins ==
   --
@@ -62,69 +93,70 @@ return {
     end,
   },
 
-  {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    lazy = false,
-    version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
-    opts = {
-      provider = "claude",
-      auto_suggestions_provider = "claude",
-      claude = {
-        endpoint = "https://api.anthropic.com",
-        model = "claude-3-7-sonnet-20250219",
-        temperature = 1,
-        max_tokens = 50000,
-      },
-      behaviour = {
-        auto_suggestions = false, -- Experimental stage
-        auto_set_highlight_group = true,
-        auto_set_keymaps = true,
-        auto_apply_diff_after_generation = false,
-        support_paste_from_clipboard = false,
-        minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
-        enable_token_counting = true, -- Whether to enable token counting. Default to true.
-        enable_cursor_planning_mode = false, -- Whether to enable Cursor Planning Mode. Default to false.
-      },
-    },
-    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-    build = "make",
-    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
-    dependencies = {
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      --- The below dependencies are optional,
-      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      "zbirenbaum/copilot.lua", -- for providers='copilot'
-      {
-        -- support for image pasting
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          -- recommended settings
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
-            },
-            -- required for Windows users
-            use_absolute_path = true,
-          },
-        },
-      },
-      {
-        -- Make sure to set this up properly if you have lazy=true
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
-      },
-    },
-  },
+  -- {
+  --   "yetone/avante.nvim",
+  --   event = "VeryLazy",
+  --   lazy = false,
+  --   version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
+  --   opts = {
+  --     provider = "claude",
+  --     cursor_applying_provider = "groq",
+  --     auto_suggestions_provider = "claude",
+  --     claude = {
+  --       endpoint = "https://api.anthropic.com",
+  --       model = "claude-3-7-sonnet-20250219",
+  --       temperature = 1,
+  --       max_tokens = 50000,
+  --     },
+  --     behaviour = {
+  --       enable_cursor_planning_mode = true,
+  --       auto_suggestions = true, -- Experimental stage
+  --       auto_set_highlight_group = true,
+  --       auto_set_keymaps = true,
+  --       auto_apply_diff_after_generation = false,
+  --       support_paste_from_clipboard = true,
+  --       minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
+  --       enable_token_counting = true, -- Whether to enable token counting. Default to true.
+  --     },
+  --   },
+  --   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+  --   build = "make",
+  --   -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+  --   dependencies = {
+  --     "stevearc/dressing.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --     "MunifTanjim/nui.nvim",
+  --     --- The below dependencies are optional,
+  --     "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+  --     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+  --     "zbirenbaum/copilot.lua", -- for providers='copilot'
+  --     {
+  --       -- support for image pasting
+  --       "HakonHarnes/img-clip.nvim",
+  --       event = "VeryLazy",
+  --       opts = {
+  --         -- recommended settings
+  --         default = {
+  --           embed_image_as_base64 = false,
+  --           prompt_for_file_name = false,
+  --           drag_and_drop = {
+  --             insert_mode = true,
+  --           },
+  --           -- required for Windows users
+  --           use_absolute_path = true,
+  --         },
+  --       },
+  --     },
+  --     {
+  --       -- Make sure to set this up properly if you have lazy=true
+  --       "MeanderingProgrammer/render-markdown.nvim",
+  --       opts = {
+  --         file_types = { "markdown", "Avante" },
+  --       },
+  --       ft = { "markdown", "Avante" },
+  --     },
+  --   },
+  -- },
 
   -- disable Gitlab LSP due to https://gitlab.com/gitlab-org/editor-extensions/gitlab.vim/-/issues/108
   -- {
@@ -148,18 +180,18 @@ return {
   --     },
   --   },
   -- },
-  {
-    "rest-nvim/rest.nvim",
-  },
-  {
-    "Al0den/notion.nvim",
-    lazy = false, --Should work when lazy loaded, not tested
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-      "nvim-lua/plenary.nvim",
-    },
-    config = function() require("notion").setup() end,
-  },
+  -- {
+  --   "rest-nvim/rest.nvim",
+  -- },
+  -- {
+  --   "Al0den/notion.nvim",
+  --   lazy = false, --Should work when lazy loaded, not tested
+  --   dependencies = {
+  --     "nvim-telescope/telescope.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --   },
+  --   config = function() require("notion").setup() end,
+  -- },
   {
     "NeogitOrg/neogit",
     dependencies = {
@@ -170,52 +202,52 @@ return {
     },
     config = true,
   },
-  {
-    "nyngwang/NeoZoom.lua",
-    lazy = false,
-    config = function()
-      require("neo-zoom").setup {
-        popup = { enabled = true }, -- this is the default.
-        -- NOTE: Add popup-effect (replace the window on-zoom with a `[No Name]`).
-        -- EXPLAIN: This improves the performance, and you won't see two
-        --          identical buffers got updated at the same time.
-        -- popup = {
-        --   enabled = true,
-        --   exclude_filetypes = {},
-        --   exclude_buftypes = {},
-        -- },
-        exclude_buftypes = { "mason" },
-        -- exclude_filetypes = { 'lspinfo', 'mason', 'lazy', 'fzf', 'qf' },
-        winopts = {
-          offset = {
-            -- NOTE: omit `top`/`left` to center the floating window vertically/horizontally.
-            -- top = 0,
-            -- left = 0.17,
-            width = 500,
-            height = 1,
-          },
-          -- NOTE: check :help nvim_open_win() for possible border values.
-          border = "thicc", -- this is a preset, try it :)
-        },
-        presets = {
-          {
-            -- NOTE: regex pattern can be used here!
-            filetypes = { "dapui_.*", "dap-repl" },
-            winopts = {
-              offset = { top = 0.02, left = 0.26, width = 0.74, height = 0.25 },
-            },
-          },
-          {
-            filetypes = { "markdown" },
-            callbacks = {
-              function() vim.wo.wrap = true end,
-            },
-          },
-        },
-      }
-      vim.keymap.set("n", "<CR>", function() vim.cmd "NeoZoomToggle" end, { silent = true, nowait = true })
-    end,
-  },
+  -- {
+  --   "nyngwang/NeoZoom.lua",
+  --   lazy = false,
+  --   config = function()
+  --     require("neo-zoom").setup {
+  --       popup = { enabled = true }, -- this is the default.
+  --       -- NOTE: Add popup-effect (replace the window on-zoom with a `[No Name]`).
+  --       -- EXPLAIN: This improves the performance, and you won't see two
+  --       --          identical buffers got updated at the same time.
+  --       -- popup = {
+  --       --   enabled = true,
+  --       --   exclude_filetypes = {},
+  --       --   exclude_buftypes = {},
+  --       -- },
+  --       exclude_buftypes = { "mason" },
+  --       -- exclude_filetypes = { 'lspinfo', 'mason', 'lazy', 'fzf', 'qf' },
+  --       winopts = {
+  --         offset = {
+  --           -- NOTE: omit `top`/`left` to center the floating window vertically/horizontally.
+  --           -- top = 0,
+  --           -- left = 0.17,
+  --           width = 500,
+  --           height = 1,
+  --         },
+  --         -- NOTE: check :help nvim_open_win() for possible border values.
+  --         border = "thicc", -- this is a preset, try it :)
+  --       },
+  --       presets = {
+  --         {
+  --           -- NOTE: regex pattern can be used here!
+  --           filetypes = { "dapui_.*", "dap-repl" },
+  --           winopts = {
+  --             offset = { top = 0.02, left = 0.26, width = 0.74, height = 0.25 },
+  --           },
+  --         },
+  --         {
+  --           filetypes = { "markdown" },
+  --           callbacks = {
+  --             function() vim.wo.wrap = true end,
+  --           },
+  --         },
+  --       },
+  --     }
+  --     vim.keymap.set("n", "<CR>", function() vim.cmd "NeoZoomToggle" end, { silent = true, nowait = true })
+  --   end,
+  -- },
   {
     "AckslD/nvim-neoclip.lua",
     requires = {

@@ -67,6 +67,15 @@ return {
           ["<leader>fu"] = { "<cmd>Telescope undo<cr>", desc = "Open undo history" },
           ["<leader>fd"] = { "<cmd>Telescope dir live_grep<cr>", desc = "Grep in current directory" },
           ["<leader>cc"] = { "<cmd>Telescope neoclip a extra=star,plus,b<cr>", desc = "Open clip manager" },
+          ["<leader>ld"] = {
+            function() require("telescope.builtin").lsp_definitions() end,
+            desc = "Jump to definition",
+          },
+
+          ["<leader>lr"] = {
+            function() require("telescope.builtin").lsp_references() end,
+            desc = "Find references",
+          },
           ["<Tab>"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
           ["<S-Tab>"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
           ["<M-t>"] = { ":tabnew<CR>", desc = "Open new tab" },
