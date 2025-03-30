@@ -6,6 +6,7 @@ local function open_terminal(direction)
   elseif direction == "full_screen" then
     vim.cmd "enew | terminal" -- Open a new full-screen terminal
     vim.cmd "resize | vertical resize" -- Maximize the terminal
+    vim.cmd "normal i"
     return -- Exit as the terminal is already opened
   else
     print "Invalid direction! Use 'horizontal', 'vertical', or 'full_screen'."
