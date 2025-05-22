@@ -80,17 +80,15 @@ return {
           },
           ["<Tab>"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
           ["<S-Tab>"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
-          ["<M-t>"] = { ":tabnew<CR>", desc = "Open new tab" },
-          ["<M-d>"] = { ":tabclose<CR>", desc = "Close current tab" },
-          ["<M-n>"] = { ":tabnext<CR>", desc = "Next tab" },
-          ["<M-p>"] = { ":tabprevious<CR>", desc = "Previous tab" },
-          ["<M-z>"] = { ":NeoZoomToggle<CR>", desc = "Zoom to split" },
-          ["<Leader>a"] = { ":AvanteToggle<CR>", desc = "AI tols" },
+          ["<Leader>T"] = { ":tabnew<CR>", desc = "Open new tab" },
+          ["<Leader>D"] = { ":tabclose<CR>", desc = "Close current tab" },
+          ["<M-N>"] = { ":tabnext<CR>", desc = "Next tab" },
+          ["<M-P>"] = { ":tabprevious<CR>", desc = "Previous tab" },
           ["<M-K>"] = { ":resize +1<CR>", desc = "Resize Up" },
           ["<M-J>"] = { ":resize -1<CR>", desc = "Resize Down" },
           ["<M-L>"] = { ":vertical resize -1<CR>", desc = "Resize Left" },
           ["<M-H>"] = { ":vertical resize +1<CR>", desc = "Resize Right" },
-          ["<Leader>tt"] = {
+          ["<Leader>tf"] = {
             function() open_terminal "full_screen" end,
             desc = "Open terminal in full screen",
           },
@@ -122,6 +120,8 @@ return {
         },
         t = {
           ["<Esc>"] = { "<C-\\><C-n>", desc = "Exit terminal mode" },
+          -- ["<C-l>"] = { "<C-\\><C-n>iclear<CR>", noremap = true, silent = true, desc = "Clear terminal screen" },
+          -- ["<C-l>"] = { "<C-\\><C-n>:call feedkeys('<C-l>')<CR>a", desc = "Clear terminal screen" },
           ["<C-l>"] = { "<C-\\><C-n>i<C-l>", desc = "Clean terminal window" },
           -- Toggle the current terminal using the custom function
           ["<Esc><Esc>"] = {
